@@ -87,6 +87,7 @@
             let incorrectCount = 0;
             let currentIndex = 0;
             let texts = [];
+            let totalQuestions = 20; // デフォルトは20問
 
             startButton.addEventListener('click', startGame);
             yoasobiButton.addEventListener('click', () => handleAnswer('YOASOBI'));
@@ -102,7 +103,10 @@
                 correctCount = 0;
                 incorrectCount = 0;
                 currentIndex = 0;
-                texts = Array.from({ length: 20 }, () => Math.random() < 0.5 ? 'YOASOBI' : 'YOSAKOI');
+                texts = [];
+                for (let i = 0; i < totalQuestions; i++) {
+                    texts.push(Math.random() < 0.5 ? 'YOASOBI' : 'YOSAKOI');
+                }
                 displayNextText();
             }
 
@@ -110,7 +114,7 @@
                 if (currentIndex < texts.length) {
                     displayText.textContent = texts[currentIndex];
                     adjustTextSizeAndPosition();
-                    counter.textContent = `残り: ${20 - currentIndex} 回`;
+                    counter.textContent = `残り: ${texts.length - currentIndex} 回`;
                 } else {
                     endGame();
                 }
@@ -118,8 +122,8 @@
 
             function adjustTextSizeAndPosition() {
                 // ランダムなフォントサイズを設定
-                const randomFontSize = Math.floor(Math.random() * (24 - 10 + 1)) + 10;
-                displayText.style.fontSize = `${randomFontSize}px`;
+                const randomFontSize = totalQuestions === 30 ? Math.floor(Math.random() * (30 - 10 + 1)) + 10 : 2;
+                displayText.style.fontSize = `${totalQuestions === 30 ? randomFontSize : 2}em`;
 
                 // テキストの位置をランダムに設定し、ボタンエリアにかからないように調整
                 const textWidth = displayText.clientWidth;
@@ -159,6 +163,11 @@
                 startButton.style.display = 'block';
                 buttonContainer.style.display = 'none';
             }
+
+            // ハードモード切り替え
+            document.querySelector('#hardMode').addEventListener('change', (event) => {
+                totalQuestions = event.target.checked ? 30 : 20;
+            });
         });
     </script>
 </body>
