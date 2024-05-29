@@ -108,10 +108,12 @@
                 displayText.style.fontSize = `${randomFontSize}px`;
 
                 // テキストの位置をランダムに設定し、画面内に収まるように調整
-                const maxWidth = gameContainer.clientWidth - displayText.clientWidth;
-                const maxHeight = gameContainer.clientHeight - displayText.clientHeight;
-                const randomX = Math.random() * (gameContainer.clientWidth - displayText.clientWidth);
-                const randomY = Math.random() * (gameContainer.clientHeight - displayText.clientHeight);
+                const textWidth = displayText.clientWidth;
+                const textHeight = displayText.clientHeight;
+                const maxWidth = gameContainer.clientWidth - textWidth;
+                const maxHeight = gameContainer.clientHeight - textHeight;
+                const randomX = Math.random() * maxWidth;
+                const randomY = Math.random() * maxHeight;
 
                 displayText.style.left = `${Math.max(0, Math.min(randomX, maxWidth))}px`;
                 displayText.style.top = `${Math.max(0, Math.min(randomY, maxHeight))}px`;
