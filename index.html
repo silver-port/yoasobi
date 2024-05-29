@@ -13,6 +13,8 @@
             justify-content: center;
             height: 100vh;
             position: relative;
+            margin: 0;
+            overflow: hidden;
         }
         #gameContainer {
             display: none;
@@ -93,20 +95,26 @@
             function displayNextText() {
                 if (currentIndex < texts.length) {
                     displayText.textContent = texts[currentIndex];
-                    moveTextRandomly();
+                    adjustTextSizeAndPosition();
                     counter.textContent = `残り: ${20 - currentIndex} 回`;
                 } else {
                     endGame();
                 }
             }
 
-            function moveTextRandomly() {
+            function adjustTextSizeAndPosition() {
+                // ランダムなフォントサイズを設定
+                const randomFontSize = Math.floor(Math.random() * (24 - 10 + 1)) + 10;
+                displayText.style.fontSize = `${randomFontSize}px`;
+
+                // テキストの位置をランダムに設定し、画面内に収まるように調整
                 const maxWidth = gameContainer.clientWidth - displayText.clientWidth;
                 const maxHeight = gameContainer.clientHeight - displayText.clientHeight;
-                const randomX = Math.random() * maxWidth;
-                const randomY = Math.random() * maxHeight;
-                displayText.style.left = `${randomX}px`;
-                displayText.style.top = `${randomY}px`;
+                const randomX = Math.random() * (gameContainer.clientWidth - displayText.clientWidth);
+                const randomY = Math.random() * (gameContainer.clientHeight - displayText.clientHeight);
+
+                displayText.style.left = `${Math.max(0, Math.min(randomX, maxWidth))}px`;
+                displayText.style.top = `${Math.max(0, Math.min(randomY, maxHeight))}px`;
             }
 
             function handleAnswer(answer) {
