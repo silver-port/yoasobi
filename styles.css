@@ -69,5 +69,6 @@ button {
 }
 
 #counter {
-  margin-top: 20px;
+  margin-top: 10px;
+  opacity: .6;
 }

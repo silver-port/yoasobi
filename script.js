@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (currentIndex < texts.length) {
 					displayText.textContent = texts[currentIndex];
 					adjustTextSizeAndPosition();
-					counter.textContent = `残り: ${20 - currentIndex} 回`;
+					counter.textContent = `残り: ${20 - currentIndex} 問`;
 			} else {
 					endGame();
 			}
