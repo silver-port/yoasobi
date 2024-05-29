@@ -26,8 +26,9 @@ body {
   display: none;
   position: relative;
   width: 100%;
-  height: calc(100vh - 100px); /* ボタンエリアを除いた高さ */
+  height: calc(100vh - 200px); /* ボタンエリアも含めた高さ */
   text-align: center;
+  z-index: 1; /* buttonContainer よりも前面に表示 */
 }
 
 #displayText {
@@ -42,11 +43,13 @@ body {
   width: 100%;
   height: 100px;
   background-color: #f1f1f1;
-  display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
-  display: none; /* 初期状態で非表示 */
+  gap: 10px;
+  z-index: 2; /* gameContainer よりも前面に表示 */
+  display: none;
 }
+
 
 #result {
   display: none;
