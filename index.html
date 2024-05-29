@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YOSAKOI YOASOBI ゲーム</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+        }
+        #gameContainer {
+            display: none;
+            text-align: center;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        #displayText {
+            position: absolute;
+            font-size: 2em;
+        }
+        #result {
+            display: none;
+            text-align: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 1em;
+        }
+        #counter {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button id="startButton">スタート</button>
+    <div id="gameContainer">
+        <p id="displayText"></p>
+        <button id="yoasobiButton">よあそび</button>
+        <button id="yosakoiButton">よさこい</button>
+        <p id="counter"></p>
+    </div>
+    <div id="result">
+        <p id="time"></p>
+        <p id="correct"></p>
+        <p id="incorrect"></p>
+        <button id="restartButton">リスタート</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startButton = document.getElementById('startButton');
+            const gameContainer = document.getElementById('gameContainer');
+            const displayText = document.getElementById('displayText');
+            const yoasobiButton = document.getElementById('yoasobiButton');
+            const yosakoiButton = document.getElementById('yosakoiButton');
+            const result = document.getElementById('result');
+            const timeDisplay = document.getElementById('time');
+            const correctDisplay = document.getElementById('correct');
+            const incorrectDisplay = document.getElementById('incorrect');
+            const restartButton = document.getElementById('restartButton');
+            const counter = document.getElementById('counter');
+
+            let startTime, endTime;
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let currentIndex = 0;
+            let texts = [];
+
+            startButton.addEventListener('click', startGame);
+            yoasobiButton.addEventListener('click', () => handleAnswer('YOASOBI'));
+            yosakoiButton.addEventListener('click', () => handleAnswer('YOSAKOI'));
+            restartButton.addEventListener('click', resetGame);
+
+            function startGame() {
+                startButton.style.display = 'none';
+                gameContainer.style.display = 'block';
+                result.style.display = 'none';
+                startTime = new Date();
+                correctCount = 0;
+                incorrectCount = 0;
+                currentIndex = 0;
+                texts = Array.from({ length: 20 }, () => Math.random() < 0.5 ? 'YOASOBI' : 'YOSAKOI');
+                displayNextText();
+            }
+
+            function displayNextText() {
+                if (currentIndex < texts.length) {
+                    displayText.textContent = texts[currentIndex];
+                    moveTextRandomly();
+                    counter.textContent = `残り: ${20 - currentIndex} 回`;
+                } else {
+                    endGame();
+                }
+            }
+
+            function moveTextRandomly() {
+                const maxWidth = gameContainer.clientWidth - displayText.clientWidth;
+                const maxHeight = gameContainer.clientHeight - displayText.clientHeight;
+                const randomX = Math.random() * maxWidth;
+                const randomY = Math.random() * maxHeight;
+                displayText.style.left = `${randomX}px`;
+                displayText.style.top = `${randomY}px`;
+            }
+
+            function handleAnswer(answer) {
+                if (texts[currentIndex] === answer) {
+                    correctCount++;
+                } else {
+                    incorrectCount++;
+                }
+                currentIndex++;
+                displayNextText();
+            }
+
+            function endGame() {
+                endTime = new Date();
+                const timeTaken = (endTime - startTime) / 1000;
+                timeDisplay.textContent = `タイム: ${timeTaken}秒`;
+                correctDisplay.textContent = `正解数: ${correctCount}`;
+                incorrectDisplay.textContent = `不正解数: ${incorrectCount}`;
+                gameContainer.style.display = 'none';
+                result.style.display = 'block';
+            }
+
+            function resetGame() {
+                result.style.display = 'none';
+                startButton.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
