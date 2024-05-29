@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
     <title>YOSAKOI YOASOBI ゲーム</title>
     <style>
         body {
@@ -12,27 +12,36 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            position: relative;
             margin: 0;
             overflow: hidden;
         }
         #gameContainer {
             display: none;
-            text-align: center;
             position: relative;
             width: 100%;
-            height: 100%;
+            height: calc(100vh - 100px); /* ボタンエリアを除いた高さ */
+            text-align: center;
         }
         #displayText {
             position: absolute;
             font-size: 2em;
+        }
+        #buttonContainer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background-color: #f1f1f1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
         }
         #result {
             display: none;
             text-align: center;
         }
         button {
-            margin: 10px;
             padding: 10px 20px;
             font-size: 1em;
         }
@@ -45,9 +54,11 @@
     <button id="startButton">スタート</button>
     <div id="gameContainer">
         <p id="displayText"></p>
+        <p id="counter"></p>
+    </div>
+    <div id="buttonContainer">
         <button id="yoasobiButton">よあそび</button>
         <button id="yosakoiButton">よさこい</button>
-        <p id="counter"></p>
     </div>
     <div id="result">
         <p id="time"></p>
@@ -68,6 +79,7 @@
             const incorrectDisplay = document.getElementById('incorrect');
             const restartButton = document.getElementById('restartButton');
             const counter = document.getElementById('counter');
+            const buttonContainer = document.getElementById('buttonContainer');
 
             let startTime, endTime;
             let correctCount = 0;
@@ -107,7 +119,7 @@
                 const randomFontSize = Math.floor(Math.random() * (24 - 10 + 1)) + 10;
                 displayText.style.fontSize = `${randomFontSize}px`;
 
-                // テキストの位置をランダムに設定し、画面内に収まるように調整
+                // テキストの位置をランダムに設定し、ボタンエリアにかからないように調整
                 const textWidth = displayText.clientWidth;
                 const textHeight = displayText.clientHeight;
                 const maxWidth = gameContainer.clientWidth - textWidth;
