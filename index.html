@@ -36,6 +36,7 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
+            display: none; /* 初期状態で非表示 */
         }
         #result {
             display: none;
@@ -95,6 +96,7 @@
             function startGame() {
                 startButton.style.display = 'none';
                 gameContainer.style.display = 'block';
+                buttonContainer.style.display = 'flex';
                 result.style.display = 'none';
                 startTime = new Date();
                 correctCount = 0;
@@ -148,12 +150,14 @@
                 correctDisplay.textContent = `正解数: ${correctCount}`;
                 incorrectDisplay.textContent = `不正解数: ${incorrectCount}`;
                 gameContainer.style.display = 'none';
+                buttonContainer.style.display = 'none';
                 result.style.display = 'block';
             }
 
             function resetGame() {
                 result.style.display = 'none';
                 startButton.style.display = 'block';
+                buttonContainer.style.display = 'none';
             }
         });
     </script>
